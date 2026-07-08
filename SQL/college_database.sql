@@ -33,4 +33,23 @@ create table students
  select * from students;
  select * from students order by marks desc;
  select * from students order by marks asc;
-  
+ select * from students limit 3;
+ select * from students limit 5;
+ select * from students order by marks desc limit 3;
+ select * from students order by marks asc limit 2;
+ select * from students order by age desc limit 10;
+ select student_id as id, name as student_name from students; # alias (as) is used to give a temporary name to column or table in the output of a query.
+ #aggregate functions
+ select count(*) from students; # count return total no of rows
+ select count(marks) from students; # we can also count for a specific column
+ select sum(marks) from students; # sum() adds all values of numeric column and it only worls on numeric data
+ select avg(marks) from students; # avg() return average of numeric column 
+ select max(marks) from students; # max() return maximum value of numeric column
+ select min(marks) from students; # min () return minimum value of numeric column
+ select avg(percentage) from students;
+ select sum(age) from students;
+select max(percentage) from students;
+select min(age) from students;
+select count(department) from students;
+
+ 
