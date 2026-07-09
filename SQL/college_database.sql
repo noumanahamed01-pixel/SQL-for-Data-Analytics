@@ -51,5 +51,48 @@ create table students
 select max(percentage) from students;
 select min(age) from students;
 select count(department) from students;
+#GROUP BY : is use to group rows that have same values in one or more columns so that aggregate functions can be applied to each group
+select department,count(*) from students group by department; #count students in each department
+select department,avg(marks) from students group by department; # return the average marks of each department
+select department,max(marks) from students group by department; # return the highest marks of each department
+select department,min(marks) from students group by department; # return the lowest marks of each department
+select department,sum(marks) from students group by department; # return the sum of each department
+select department,avg(percentage) from students group by department; # return the average percentage of each department
+select department,sum(age) from students group by department;
+#Display the number of students in each department, sorted by the highest student count.
+select department,max(marks),count(*) as total_students from students group by department order by total_students desc;
+#Display the department with the highest average marks.
+select department,avg(marks) as average_marks from students group by department order by average_marks desc;
+#Display the department with the highest total marks.
+select department,sum(marks) as total_marks from students group by department order by total_marks desc limit 1;
+#HAVING : IS USED TO FILTER GROUPED DATA AFTER GROUP BY.
+#Show departments having more than 2 students.
+select department,count(*) as total_students from students group by department having total_students>2;
+#2.	Show departments whose average marks are greater than 70. 
+select department,avg(marks) as average_marks from students group by department having average_marks>70;
+#3.	Show departments whose highest marks are greater than 85. 
+select department,max(marks) as highest_marks from students group by department having highest_marks>85;
+#4.	Show departments whose total marks are greater than 150. 
+select department,sum(marks) as total_marks from students group by department having total_marks>150;
+#5.	Show departments whose average percentage is greater than 75. 
+select department,avg(percentage) as average_percentage from students group by department having average_percentage>75;
+#LIKE is used to search for a specific pattern in text (VARCHAR) columns.
+#1.	Display students whose name starts with A. 
+select * from students where name like 'A%';
+#2.	Display students whose name ends with y. 
+select * from students where name like '%y';
+#3.	Display students whose name contains ar. 
+select * from students where name like '%ar%';
+#4.	Display students whose department starts with B. 
+select * from students where department like 'B%';
+#5.	Display students whose department ends with A. 
+select * from students where department like '%A';
+#6.	Display students whose second letter is a. 
+select * from students where name like '_a%';
+#7.	Display students whose name has exactly 5 characters. 
+select * from students where name like '_____';
+
+
+
 
  
