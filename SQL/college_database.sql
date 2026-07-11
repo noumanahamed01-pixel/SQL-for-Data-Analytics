@@ -91,6 +91,75 @@ select * from students where department like '%A';
 select * from students where name like '_a%';
 #7.	Display students whose name has exactly 5 characters. 
 select * from students where name like '_____';
+#IN operator is used to check a value matches any value in the given list
+#1. Display students from BCA and B_com.
+select * from students where department in ('bca','b_com','BTechCSe');
+#2. Display students whose age is 20,22 and 31.
+select * from students where age in (20,22,31);
+#3. Display students whose marks are 67,72,88.
+select * from students where marks in (67,72,88);
+#.4 display student who are not from bca.
+select * from students where department not in ('bca');
+select * from students where department != 'bca';
+#5. Display students whose department is BTechCSe and Master'S.
+select * from students where department in ('BTechCSe',"Master's");
+#6. Display students whose percentage is 67.4,78.16,97.63.
+select * from students where percentage in (97.63,78.16,67.4);
+#7. display students whose names are alice, sunny, girish.
+select * from students where name in ('alice','sunny','girish');
+# BETWEEEN is used to select value within specified range.
+#1.display students whose marks are between 60 and 90.
+select * from students where marks between 60 and 90;
+#2. Display students whose age is between 20 and 30
+select * from students where age between 20 and 30;
+#3. Display students whose percentage is between 70 and 90.
+select * from students where percentage between 70 and 90;
+#4. Display students whose marks are not between 50 and 80.
+select * from students where marks not between 50 and 80;
+#5. Display students whose age is not between 18 and 25.
+select * from students where age not between 18 and 25;
+#6. Display students whose name are alphabetically between A and H.
+select * from students where name between 'A' and 'H';
+#7. Display students whose percentage is between 60 and 80.
+select * from students where percentage between 60 and 80;
+#IS NULL is used to find rows where a column has no value (NULL).
+#IS NOT NULL is used to find rows where a column contains a value.
+#Important: NULL does not mean 0 or an empty string (''). It means missing or unknown data.
+alter table students modify column percentage decimal(5,2) null;
+update students set percentage=null where name='sunny';
+#1. Display studens whose percenatage is null
+select * from students where percentage is null;
+#2. Display students whose percentage is not null;
+select * from students where percentage is not null;
+#3.Make one student's Department null and display those students.
+alter table students modify department varchar(20) null;
+update students set department=null where name='girish';
+select * from students where department is null;
+#4. Display students whose department is not null 
+select * from students where department is not null;
+#5. Make one students marks null and display students whose marks are null.
+alter table students modify marks int null;
+UPDATE students SET marks = NULL WHERE name = 'girish';
+select * from students where marks is null;
+#6. Display students whose marks are not null
+select * from students where marks is not null;
+#7.Restore the updated value after practice
+update students set department='B_com' where name='girish';
+update students set marks='88' where name='girish';
+update students set percentage=82.4 where student_id=11;
+select * from students;
+
+
+#A JOIN is used to combine data from two or more tables based on a related column.
+#Instead of storing all information in one huge table, databases split data into multiple related tables.
+#JOIN helps us retrieve that related data together
+create table college_students(STUDENT_ID INT PRIMARY KEY,STUDENT_NAME VARCHAR(10),AGE INT );
+CREATE TABLE COURSE_TABLE(COURSE_ID INT PRIMARY KEY,COURSE_NAME VARCHAR(10));
+CREATE TABLE ENROLLMENTS(STUDENT_ID INT,COURSE_ID INT);
+INSERT INTO COLLEGE_STUDENTS VALUES(1,'ALICE',20),(2,'BOB',23),(3,'SUNNY',21);
+INSERT INTO COURSE_TABLE VALUES(101,'PYTHON'),(102,'SQL'),(103,'EXCEL');
+INSERT INTO ENROLLMENTS VALUES(1,101),(1,102),(2,103),(3,101);
+SELECT COLLEGE_STUDENTS.STUDENT_NAME,COURSE_TABLE.COURSE_NAME FROM COLLEGE_STUDENTS INNER JOIN COURSE_TABLE ON COLLEGE_STUDENTS.STUDENT_ID=COURSE_TABLE.STUDENT_ID;
 
 
 
