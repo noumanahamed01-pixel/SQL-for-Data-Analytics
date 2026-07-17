@@ -159,7 +159,153 @@ CREATE TABLE ENROLLMENTS(STUDENT_ID INT,COURSE_ID INT);
 INSERT INTO COLLEGE_STUDENTS VALUES(1,'ALICE',20),(2,'BOB',23),(3,'SUNNY',21);
 INSERT INTO COURSE_TABLE VALUES(101,'PYTHON'),(102,'SQL'),(103,'EXCEL');
 INSERT INTO ENROLLMENTS VALUES(1,101),(1,102),(2,103),(3,101);
-SELECT COLLEGE_STUDENTS.STUDENT_NAME,COURSE_TABLE.COURSE_NAME FROM COLLEGE_STUDENTS INNER JOIN COURSE_TABLE ON COLLEGE_STUDENTS.STUDENT_ID=COURSE_TABLE.STUDENT_ID;
+-- Display students name with course ids using inner join
+SELECT college_students.student_name, enrollments.course_id
+FROM college_students
+INNER JOIN enrollments
+ON college_Students.student_id=enrollments.student_id;
+select * from college_students;
+select * from course_table;
+select * from enrollments;
+-- Display students names with course names using inner join
+select college_students.student_name,course_table.course_name
+from college_students
+inner join enrollments
+on college_students.student_id=enrollments.student_id
+inner join course_table
+on course_table.course_id=enrollments.course_id;
+-- display all students ids with course ids using inner join.
+select college_students.student_id,course_table.course_id
+from college_students
+inner join enrollments
+on college_students.student_id=enrollments.student_id
+inner join course_table
+on course_table.course_id=enrollments.course_id;
+-- diplay student enrolled in python using inner join.
+select college_students.student_name,course_table.course_name
+from college_students
+inner join enrollments
+ON college_students.student_id=enrollments.student_id
+inner join course_table
+on course_table.course_id=enrollments.course_id
+where course_name='python';
+-- display students enrolled in sql using inner join.
+select college_students.student_name,course_table.course_name
+from college_students
+inner join enrollments
+on college_students.student_id=enrollments.student_id
+inner join course_table
+on course_table.course_id=enrollments.course_id
+where course_name='sql';
+-- count how many student are enrolled in each course using inner join
+select course_table.course_name, count(course_name)
+from course_table
+inner join enrollments
+on course_table.course_id=enrollments.course_id
+group by course_name;
+-- display course names with no of enrolled students using inner join
+select course_table.course_name,count(course_name) as Enrolled_Students
+from course_table
+inner join enrollments
+on course_table.course_id=enrollments.course_id
+group by course_name
+having count(course_name)>1;
+select * from students;
+
+-- Parent table: Students
+CREATE TABLE COLLEGE_STUDENT (
+    STUDENT_ID INT PRIMARY KEY,
+    STUDENT_NAME VARCHAR(10),
+    AGE INT
+);
+
+-- Parent table: Courses
+CREATE TABLE COURSE (
+    COURSE_ID INT PRIMARY KEY,
+    COURSE_NAME VARCHAR(10)
+);
+
+-- Child table: Enrollments with foreign keys
+CREATE TABLE ENROLLMENT (
+    STUDENT_ID INT,
+    COURSE_ID INT,
+    FOREIGN KEY (STUDENT_ID) REFERENCES COLLEGE_STUDENT(STUDENT_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (COURSE_ID) REFERENCES COURSE(COURSE_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- Insert sample data
+INSERT INTO COLLEGE_STUDENT VALUES (1,'ALICE',20),(2,'BOB',23),(3,'SUNNY',21);
+INSERT INTO COURSE VALUES (101,'PYTHON'),(102,'SQL'),(103,'EXCEL');
+INSERT INTO ENROLLMENT VALUES (1,101),(1,102),(2,103),(3,101);
+
+-- retrieve data --
+SELECT * FROM COLLEGE_STUDENT;
+SELECT * FROM COURSE;
+SELECT * FROM ENROLLMENT;
+
+-- TESTING THE CASCADE --
+DELETE FROM COLLEGE_STUDENT WHERE STUDENT_ID = 1;
+SELECT * FROM COLLEGE_STUDENT;
+UPDATE COURSE SET COURSE_ID= 201 WHERE COURSE_ID =101;
+
+-- Transaction Practice --
+-- COMMIT --
+start transaction;
+update college_student set student_name='john' where student_id=1;
+select * from college_student;
+commit;
+-- ROLLBACK --
+start transaction;
+update college_student set student_name='abcxz' where student_name='bob';
+select * from college_student;
+rollback;
+-- SAVEPOINT --
+START TRANSACTION;
+UPDATE college_student SET student_name='ayesha' where student_id=1;
+SAVEPOINT A;
+UPDATE college_student SET student_name='madiha' where student_id=2;
+SAVEPOINT B;
+UPDATE college_student SET student_name='adsaasd' where student_id=3;
+SAVEPOINT c;
+select * from college_student;
+ROLLBACK TO B;
+-- practice transaction --
+create table acc
+(account_id int auto_increment primary key,
+name varchar(10) not null,
+balance int);
+insert into acc (name,balance) values ('john',67000);
+insert into acc (name,balance) values ('alice',55000);
+insert into acc (name,balance) values ('sunny', 13000);
+select * from acc;
+start transaction;
+update acc set balance=balance - 10000 where account_id=1;
+update acc set balance= balance + 10000 where account_id=3;
+commit;
+select * from acc;
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
